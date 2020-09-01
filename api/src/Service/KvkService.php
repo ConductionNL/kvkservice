@@ -74,13 +74,33 @@ class KvkService
 
         return $item->get();
     }
+    public function getCompanies(array $query){
+
+        $item = $this->cache->getItem('companies_'.md5(implode('',$query)));
+        if($item->isHit()){
+            return $item->get();
+        }
+        $response = $this->client->get('companies', ['query'=>$query])->getBody();
+//        var_dump($response);
+
+        $response = json_decode($response, true);
+        $response = $response['data']['items'];
+
+        $item->set($response);
+        $item->expiresAt(new DateTime('tomorrow 4:59'));
+        $this->cache->save($item);
+
+        return $item->get();
+    }
     public function getObject($branch): Company
     {
 //        var_dump($branch);
         $company = new Company();
         $company->setBranchNumber($branch['branchNumber']);
         $company->setKvkNumber($branch['kvkNumber']);
-        $company->setRsin($branch['rsin']);
+        if(key_exists('rsin', $branch)){
+            $company->setRsin($branch['rsin']);
+        }
 
         $company->setHasEntryInBusinessRegister($branch['hasEntryInBusinessRegister']);
         $company->setHasNonMailingIndication($branch['hasNonMailingIndication']);
@@ -119,21 +139,21 @@ class KvkService
         return $company;
     }
 
-    public function getCompaniesOnSearchParameters($huisnummer, $postcode)
+    public function getCompaniesOnSearchParameters($query) : array
     {
         // Lets start with th getting of nummer aanduidingen
-        $now = new \Datetime();
-        $query = ['huisnummer'=>$huisnummer, 'postcode'=>$postcode, 'geldigOp'=>$now->format('Y-m-d')];
-        $nummeraanduidingen = $this->getNummeraanduidingen($query);
+//        var_dump($query);
+//        die;
+        $companies = $this->getCompanies($query);
 
         // Lets setup an responce
-        $responces = [];
+        $results = [];
         // Then we need to enrich that
-        foreach ($nummeraanduidingen['nummeraanduidingen'] as $nummeraanduiding) {
-            $responces[] = $this->getObject($nummeraanduiding);
+        foreach ($companies as $nummeraanduiding) {
+            $results[] = $this->getObject($nummeraanduiding);
         }
 
-        return $responces;
+        return $results;
     }
 
     public function getCompanyOnBranchNumber($branchNumber) : Company

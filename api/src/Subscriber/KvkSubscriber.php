@@ -91,7 +91,7 @@ class KvkSubscriber implements EventSubscriberInterface
             $response->send();
         } else {
 
-            $companies = [];
+            $companies = $this->kvkService->getCompaniesOnSearchParameters($event->getRequest()->query->all());
 
             switch ($renderType) {
                 case 'jsonld':

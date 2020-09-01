@@ -2118,7 +2118,7 @@ paths:
           in: query
       produces:
         - application/health+json
-  '/companies/{branchNumber}':
+  '/companies/{id}':
     get:
       tags:
         - Company
@@ -2254,13 +2254,6 @@ components:
     Address-read:
       type: object
       properties:
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
         type:
           type: string
         street:
@@ -2287,13 +2280,6 @@ components:
         '@type':
           readOnly: true
           type: string
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
         type:
           type: string
         street:
@@ -2690,12 +2676,6 @@ components:
       type: object
       description: ''
       properties:
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
         branchNumber:
           type: string
         kvkNumber:
@@ -2733,12 +2713,6 @@ components:
         '@type':
           readOnly: true
           type: string
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
         branchNumber:
           type: string
         kvkNumber:
@@ -2766,11 +2740,6 @@ components:
 definitions:
   Company-read:
     properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
       branchNumber: []
       kvkNumber: []
       rsin: []
@@ -2886,12 +2855,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-09-01 07:19:28'
+        example: '2020-09-01 10:35:13'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-09-01 07:19:28'
+        example: '2020-09-01 10:35:13'
     required: []
   AuditTrail-write:
     properties:
@@ -2939,12 +2908,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-09-01 07:19:28'
+        example: '2020-09-01 10:35:13'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-09-01 07:19:28'
+        example: '2020-09-01 10:35:13'
     required: []
   ChangeLog-write:
     properties:
