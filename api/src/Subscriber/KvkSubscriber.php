@@ -112,7 +112,7 @@ class KvkSubscriber implements EventSubscriberInterface
             $response = $this->serializer->serialize(
                 $response,
                 $renderType,
-                ['enable_max_depth'=> true]
+                ['enable_max_depth'=> true, 'groups'=>'read']
             );
 
             // Creating a response
