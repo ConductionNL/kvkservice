@@ -7,8 +7,6 @@ use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -230,14 +228,12 @@ class Company
      */
     private $tradeNames;
 
-
-
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
     }
 
-    public function getId():string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -379,6 +375,7 @@ class Company
     public function setTradeNames(array $tradeNames): self
     {
         $this->tradeNames = $tradeNames;
+
         return $this;
     }
 }
