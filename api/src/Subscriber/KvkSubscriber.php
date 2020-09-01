@@ -5,9 +5,6 @@
 namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use App\Entity\Adres;
-use App\Service\KadasterService;
 use App\Service\KvkService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -42,7 +39,6 @@ class KvkSubscriber implements EventSubscriberInterface
         $path = explode('/', parse_url($event->getRequest()->getUri())['path']);
         $route = $event->getRequest()->attributes->get('_route');
         $method = $event->getRequest()->getMethod();
-
 
         // Lats make sure that some one posts correctly
         if (Request::METHOD_GET !== $method || ($route != 'api_companies_get_collection' && $path[1] != 'companies')) {
@@ -90,7 +86,6 @@ class KvkSubscriber implements EventSubscriberInterface
 //            $event->setResponse($response);
             $response->send();
         } else {
-
             $companies = $this->kvkService->getCompaniesOnSearchParameters($event->getRequest()->query->all());
 
             switch ($renderType) {

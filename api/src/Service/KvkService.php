@@ -13,17 +13,13 @@
 
 namespace App\Service;
 
-use App\Entity\Adres;
 //use Doctrine\ORM\EntityManager;
 use App\Entity\Address;
 use App\Entity\Company;
-use App\Entity\TradeName;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidFactory;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface as CacheInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -55,10 +51,10 @@ class KvkService
         ]);
     }
 
-    public function getCompany(string $branchNumber){
-
+    public function getCompany(string $branchNumber)
+    {
         $item = $this->cache->getItem('company_'.md5($branchNumber));
-        if($item->isHit()){
+        if ($item->isHit()) {
             return $item->get();
         }
         $query = ['branchNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true'];
@@ -74,10 +70,11 @@ class KvkService
 
         return $item->get();
     }
-    public function getCompanies(array $query){
 
-        $item = $this->cache->getItem('companies_'.md5(implode('',$query)));
-        if($item->isHit()){
+    public function getCompanies(array $query)
+    {
+        $item = $this->cache->getItem('companies_'.md5(implode('', $query)));
+        if ($item->isHit()) {
             return $item->get();
         }
         $response = $this->client->get('companies', ['query'=>$query])->getBody();
@@ -92,13 +89,14 @@ class KvkService
 
         return $item->get();
     }
+
     public function getObject($branch): Company
     {
 //        var_dump($branch);
         $company = new Company();
         $company->setBranchNumber($branch['branchNumber']);
         $company->setKvkNumber($branch['kvkNumber']);
-        if(key_exists('rsin', $branch)){
+        if (key_exists('rsin', $branch)) {
             $company->setRsin($branch['rsin']);
         }
 
@@ -109,7 +107,7 @@ class KvkService
         $company->setIsBranch($branch['isBranch']);
         $company->setIsMainBranch($branch['isMainBranch']);
 
-        foreach($branch['addresses'] as $rawAddress){
+        foreach ($branch['addresses'] as $rawAddress) {
             $address = new Address();
             $address->setType($rawAddress['type']);
             $address->setStreet($rawAddress['street']);
@@ -126,7 +124,7 @@ class KvkService
 
             $company->addAddress($address);
         }
-        if(key_exists('tradeNames', $branch)){
+        if (key_exists('tradeNames', $branch)) {
             $company->setTradeNames($branch['tradeNames']);
         }
 
@@ -139,7 +137,7 @@ class KvkService
         return $company;
     }
 
-    public function getCompaniesOnSearchParameters($query) : array
+    public function getCompaniesOnSearchParameters($query): array
     {
         // Lets start with th getting of nummer aanduidingen
 //        var_dump($query);
@@ -156,9 +154,8 @@ class KvkService
         return $results;
     }
 
-    public function getCompanyOnBranchNumber($branchNumber) : Company
+    public function getCompanyOnBranchNumber($branchNumber): Company
     {
-
         $company = $this->getCompany($branchNumber);
 
         return $this->getObject($company);
