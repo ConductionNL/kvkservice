@@ -2251,6 +2251,63 @@ paths:
         - application/health+json
 components:
   schemas:
+    Address-read:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        type:
+          type: string
+        street:
+          type: string
+        houseNumber:
+          type: string
+        houseNumberAddition:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+    'Address:jsonld-read':
+      type: object
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        type:
+          type: string
+        street:
+          type: string
+        houseNumber:
+          type: string
+        houseNumberAddition:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
     AuditTrail-read:
       type: object
       description: 'An resource representing a log line.'
@@ -2633,6 +2690,12 @@ components:
       type: object
       description: ''
       properties:
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
         branchNumber:
           type: string
         kvkNumber:
@@ -2649,6 +2712,14 @@ components:
           type: boolean
         isMainBranch:
           type: boolean
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address-read'
+        tradeNames:
+          type: array
+          items:
+            type: string
     'Company:jsonld-read':
       type: object
       description: ''
@@ -2662,6 +2733,12 @@ components:
         '@type':
           readOnly: true
           type: string
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
         branchNumber:
           type: string
         kvkNumber:
@@ -2678,9 +2755,22 @@ components:
           type: boolean
         isMainBranch:
           type: boolean
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address:jsonld-read'
+        tradeNames:
+          type: array
+          items:
+            type: string
 definitions:
   Company-read:
     properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
       branchNumber: []
       kvkNumber: []
       rsin: []
@@ -2689,6 +2779,8 @@ definitions:
       isLegalPerson: []
       isBranch: []
       isMainBranch: []
+      tradeNames: []
+      addresses: []
     required: []
   AuditTrail-read:
     properties:
@@ -2794,12 +2886,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-31 14:37:56'
+        example: '2020-09-01 07:19:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-31 14:37:56'
+        example: '2020-09-01 07:19:28'
     required: []
   AuditTrail-write:
     properties:
@@ -2847,12 +2939,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-31 14:37:56'
+        example: '2020-09-01 07:19:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-31 14:37:56'
+        example: '2020-09-01 07:19:28'
     required: []
   ChangeLog-write:
     properties:

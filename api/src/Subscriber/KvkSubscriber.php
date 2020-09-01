@@ -63,8 +63,8 @@ class KvkSubscriber implements EventSubscriberInterface
                 $renderType = 'jsonhal';
                 break;
             default:
-                $contentType = 'application/hal+json';
-                $renderType = 'jsonhal';
+                $contentType = 'application/ld+json';
+                $renderType = 'jsonld';
         }
         $branchNumber = null;
         if ($route != 'api_companies_get_collection' && $path[1] == 'companies' || $route == 'api_companies_get_collection' && $branchNumber = $event->getRequest()->query->get('branchNumber')) {
@@ -72,20 +72,21 @@ class KvkSubscriber implements EventSubscriberInterface
                 $branchNumber = $path[2];
             }
             $company = $this->kvkService->getCompanyOnBranchNumber($branchNumber);
-
             $response = $this->serializer->serialize(
                 $company,
                 $renderType,
-                ['enable_max_depth'=> true]
+                ['enable_max_depth'=> true, 'groups'=>'read']
             );
 
+//            var_dump($company);
+//            die;
             // Creating a response
             $response = new Response(
                 $response,
                 Response::HTTP_OK,
                 ['content-type' => $contentType]
             );
-            var_dump($response);
+
 //            $event->setResponse($response);
             $response->send();
         } else {

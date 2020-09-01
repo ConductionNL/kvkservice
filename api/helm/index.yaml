@@ -3,14 +3,14 @@ entries:
   kvk:
   - apiVersion: v1
     appVersion: V.0.1
-    created: "2020-08-31T14:36:24.4121381Z"
+    created: "2020-09-01T07:11:23.0156088Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: ff40000d526cfe9c43df93d4c998f98d81e1d4a845e0b0a3c13616d2c6dc70e0
+    digest: b7dcc2c161ba5757f90357448c77c8c996b45aea814b6c5caafba25ef4798129
     home: kvk.zuid-drecht.nl
     icon: kvk.zuid-drecht.nl
     name: kvk
     urls:
     - kvk-0.1.0.tgz
     version: 0.1.0
-generated: "2020-08-31T14:36:24.4043765Z"
+generated: "2020-09-01T07:11:23.0020048Z"

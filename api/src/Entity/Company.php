@@ -148,7 +148,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *        "get"={
- *          "path"="/companies/{branchNumber}",
+ *          "path"="/companies/{id}",
  *          "method"="GET"
  *        }
  *     }
@@ -162,7 +162,6 @@ class Company
      *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
-     * @Groups({"read"})
      * @Assert\Uuid
      * @ORM\Id
      * @ORM\Column(type="string", unique=true)
@@ -173,7 +172,7 @@ class Company
 
     /**
      * @Groups({"read"})
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $branchNumber;
 
@@ -236,7 +235,6 @@ class Company
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
-        $this->tradeNames = new ArrayCollection();
     }
 
     public function getId():string
@@ -373,10 +371,7 @@ class Company
         return $this;
     }
 
-    /**
-     * @return Collection|TradeName[]
-     */
-    public function getTradeNames(): Collection
+    public function getTradeNames(): array
     {
         return $this->tradeNames;
     }
