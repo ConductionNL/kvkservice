@@ -159,6 +159,7 @@ class Company
      * @var string The UUID identifier of this object
      *
      * @Groups({"read"})
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
