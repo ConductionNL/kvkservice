@@ -158,6 +158,8 @@ class Company
     /**
      * @var string The UUID identifier of this object
      *
+     * @Groups({"read"})
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -167,6 +169,12 @@ class Company
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
+
+    /**
+     * @Groups({"read"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
 
     /**
      * @Groups({"read"})
@@ -375,6 +383,18 @@ class Company
     public function setTradeNames(array $tradeNames): self
     {
         $this->tradeNames = $tradeNames;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
