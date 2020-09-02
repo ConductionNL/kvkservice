@@ -1,16 +1,16 @@
 apiVersion: v1
 entries:
-  pc:
+  kvk:
   - apiVersion: v1
     appVersion: V.0.1
-    created: "2020-07-08T14:50:18.657099231Z"
+    created: "2020-09-02T08:53:27.3360271Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: a3ebf537582710b118b706a276db61fec8e25b642f3e8f3d1bb239ac1131f064
-    home: pc.zaakonline.nl
-    icon: pc.zaakonline.nl
-    name: pc
+    digest: 52e783b9256f5e7545a05ec5e7e6eea18394be788f492fe97d29467226efdeb3
+    home: kvk.zuid-drecht.nl
+    icon: kvk.zuid-drecht.nl
+    name: kvk
     urls:
-    - pc-0.1.0.tgz
+    - kvk-0.1.0.tgz
     version: 0.1.0
-generated: "2020-07-08T14:50:18.65020833Z"
+generated: "2020-09-02T08:53:27.3171916Z"
