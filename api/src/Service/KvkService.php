@@ -127,9 +127,9 @@ class KvkService
         }
         if (key_exists('tradeNames', $branch)) {
             $company->setTradeNames($branch['tradeNames']);
-            if(key_exists('businessName', $branch['tradeNames'])){
+            if (key_exists('businessName', $branch['tradeNames'])) {
                 $company->setName($branch['tradeNames']['businessName']);
-            } elseif (!is_array($branch['tradeNames'][0])){
+            } elseif (!is_array($branch['tradeNames'][0])) {
                 $company->setName($branch['tradeNames'][0]);
             } else {
                 $company->setName($branch['branchNumber']);
