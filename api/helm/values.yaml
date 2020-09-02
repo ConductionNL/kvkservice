@@ -56,8 +56,8 @@ security:
 
 commonground:
     kvk:
-        location: https://api.kvk.nl/api/v2/testsearch/
-        key: !changeMe!
+        location: "https://api.kvk.nl/api/v2/testsearch/"
+        key: "!changeMe!"
 
 
 php:
