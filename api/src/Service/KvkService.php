@@ -47,7 +47,7 @@ class KvkService
             // You can set any number of default request options.
             'timeout'  => 4000.0,
             // This api key needs to go into params
-            'headers' => ['X-Api-Key' => $this->params->get('common_ground.components')['kvk']['apikey']],
+            'headers' => [],
         ]);
     }
 
@@ -57,7 +57,7 @@ class KvkService
         if ($item->isHit()) {
             return $item->get();
         }
-        $query = ['branchNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true'];
+        $query = ['branchNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true', 'user_key'=>$this->params->get('common_ground.components')['kvk']['apikey']];
         $response = $this->client->get('companies', ['query'=>$query])->getBody();
 //        var_dump($response);
 
@@ -77,6 +77,7 @@ class KvkService
         if ($item->isHit()) {
             return $item->get();
         }
+        $query['user_key'] = $this->params->get('common_ground.components')['kvk']['apikey'];
         $response = $this->client->get('companies', ['query'=>$query])->getBody();
 //        var_dump($response);
 
