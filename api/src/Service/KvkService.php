@@ -98,7 +98,7 @@ class KvkService
                         $response = $responseItem;
                     }
                 }
-            } elseif ($response['data']['items'] == 1) {
+            } elseif (count($response['data']['items']) == 1) {
                 $response = $response['data']['items'][0];
             } else {
                 throw new HttpException(404, 'not found');
@@ -106,6 +106,7 @@ class KvkService
         } else {
             $response = $response['data']['items'][0];
         }
+
 
         $item->set($response);
         $item->expiresAt(new DateTime('+ 1 week'));
