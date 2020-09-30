@@ -87,6 +87,12 @@ class KvkService
 //        var_dump($response);
 
         $response = json_decode($response, true);
+        if(count($response['data']['items']) < 1){
+            $query = ['kvkNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true', 'user_key'=>$this->params->get('common_ground.components')['kvk']['apikey']];
+            $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
+
+            $response = json_decode($response, true);
+        }
         $response = $response['data']['items'][0];
 
         $item->set($response);
@@ -104,7 +110,7 @@ class KvkService
             return $item->get();
         }
         $query['user_key'] = $this->params->get('common_ground.components')['kvk']['apikey'];
-        $response = $this->client->get('companies', ['query'=>$query])->getBody();
+        $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
 //        var_dump($response);
 
         $response = json_decode($response, true);
@@ -172,6 +178,8 @@ class KvkService
         $this->manager->persist($company);
         if(key_exists('branchNumber', $branch)){
             $company->setId($branch['branchNumber']);
+        }else{
+            $company->setid($branch['kvkNumber']);
         }
         $this->manager->persist($company);
 
