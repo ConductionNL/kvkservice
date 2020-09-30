@@ -23,6 +23,7 @@ use GuzzleHttp\Client;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Cache\Adapter\AdapterInterface as CacheInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class KvkService
 {
@@ -84,7 +85,6 @@ class KvkService
         }
         $query = ['branchNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true', 'user_key'=>$this->params->get('common_ground.components')['kvk']['apikey']];
         $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
-//        var_dump($response);
 
         $response = json_decode($response, true);
         if(count($response['data']['items']) < 1){
@@ -92,8 +92,21 @@ class KvkService
             $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
 
             $response = json_decode($response, true);
+            if(count($response['data']['items']) > 1){
+                foreach($response['data']['items'] as $responseItem){
+                    if(!key_exists('branchNumber', $responseItem)){
+                        $response = $responseItem;
+                    }
+                }
+            }
+            elseif($response['data']['items'] == 1){
+                $response = $response['data']['items'][0];
+            } else {
+                throw new HttpException(404, 'not found');
+            }
+        } else {
+            $response = $response['data']['items'][0];
         }
-        $response = $response['data']['items'][0];
 
         $item->set($response);
         $item->expiresAt(new DateTime('+ 1 week'));
