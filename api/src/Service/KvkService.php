@@ -16,6 +16,7 @@ namespace App\Service;
 //use Doctrine\ORM\EntityManager;
 use App\Entity\Address;
 use App\Entity\Company;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
@@ -35,11 +36,12 @@ class KvkService
      */
     private $cache;
 
-    public function __construct(ParameterBagInterface $params, CacheInterface $cache, EntityManagerInterface $manager)
+    public function __construct(ParameterBagInterface $params, CacheInterface $cache, EntityManagerInterface $manager, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
         $this->cache = $cache;
         $this->manager = $manager;
+        $this->commonGroundService = $commonGroundService;
 
         $this->client = new Client([
             // Base URI is used with relative requests
@@ -48,7 +50,30 @@ class KvkService
             'timeout'  => 4000.0,
             // This api key needs to go into params
             'headers' => [],
+            // Do not check certificates
+            'verify' => false,
         ]);
+    }
+
+    private function convertQuery($query): string
+    {
+        if (is_array($query) && $query != []) {
+            $queryString = '';
+            $iterator = 0;
+            foreach ($query as $parameter => $value) {
+                $queryString .= "$parameter=$value";
+
+                $iterator++;
+                if ($iterator < count($query)) {
+                    $queryString .= '&';
+                }
+            }
+            $query = $queryString;
+        } elseif ($query == []) {
+            $query = '';
+        }
+
+        return $query;
     }
 
     public function getCompany(string $branchNumber)
@@ -58,14 +83,14 @@ class KvkService
             return $item->get();
         }
         $query = ['branchNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true', 'user_key'=>$this->params->get('common_ground.components')['kvk']['apikey']];
-        $response = $this->client->get('companies', ['query'=>$query])->getBody();
+        $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
 //        var_dump($response);
 
         $response = json_decode($response, true);
         $response = $response['data']['items'][0];
 
         $item->set($response);
-        $item->expiresAt(new DateTime('tomorrow 4:59'));
+        $item->expiresAt(new DateTime('+ 1 week'));
         $this->cache->save($item);
 
         return $item->get();
@@ -73,6 +98,7 @@ class KvkService
 
     public function getCompanies(array $query)
     {
+//        var_dump($query);
         $item = $this->cache->getItem('companies_'.md5(implode('', $query)));
         if ($item->isHit()) {
             return $item->get();
@@ -85,7 +111,7 @@ class KvkService
         $response = $response['data']['items'];
 
         $item->set($response);
-        $item->expiresAt(new DateTime('tomorrow 4:59'));
+        $item->expiresAt(new DateTime('+ 1 week'));
         $this->cache->save($item);
 
         return $item->get();
@@ -93,9 +119,10 @@ class KvkService
 
     public function getObject($branch): Company
     {
-//        var_dump($branch);
         $company = new Company();
-        $company->setBranchNumber($branch['branchNumber']);
+        if(key_exists('branchNumber', $branch)){
+            $company->setBranchNumber($branch['branchNumber']);
+        }
         $company->setKvkNumber($branch['kvkNumber']);
         if (key_exists('rsin', $branch)) {
             $company->setRsin($branch['rsin']);
@@ -108,29 +135,31 @@ class KvkService
         $company->setIsBranch($branch['isBranch']);
         $company->setIsMainBranch($branch['isMainBranch']);
 
-        foreach ($branch['addresses'] as $rawAddress) {
-            $address = new Address();
-            $address->setType($rawAddress['type']);
-            $address->setStreet($rawAddress['street']);
-            $address->setHouseNumber($rawAddress['houseNumber']);
-            $address->setHouseNumberAddition($rawAddress['houseNumberAddition']);
-            $address->setPostalCode($rawAddress['postalCode']);
-            $address->setCity($rawAddress['city']);
-            $address->setCountry($rawAddress['country']);
+        if(key_exists('addresses', $branch)){
+            foreach ($branch['addresses'] as $rawAddress) {
+                $address = new Address();
+                $address->setType($rawAddress['type']);
+                $address->setStreet($rawAddress['street']);
+                $address->setHouseNumber($rawAddress['houseNumber']);
+                $address->setHouseNumberAddition($rawAddress['houseNumberAddition']);
+                $address->setPostalCode($rawAddress['postalCode']);
+                $address->setCity($rawAddress['city']);
+                $address->setCountry($rawAddress['country']);
 
-            $this->manager->persist($address);
+                $this->manager->persist($address);
 
-            $address->setId(Uuid::uuid4());
-            $this->manager->persist($address);
+                $address->setId(Uuid::uuid4());
+                $this->manager->persist($address);
 
-            $company->addAddress($address);
+                $company->addAddress($address);
+            }
         }
         if (key_exists('tradeNames', $branch)) {
             $company->setTradeNames($branch['tradeNames']);
             if (key_exists('businessName', $branch['tradeNames'])) {
                 $company->setName($branch['tradeNames']['businessName']);
-            } elseif (!is_array($branch['tradeNames'][0])) {
-                $company->setName($branch['tradeNames'][0]);
+            } elseif (!is_array(array_values($branch['tradeNames'])[0])) {
+                $company->setName(array_values($branch['tradeNames'])[0]);
             } else {
                 $company->setName($branch['branchNumber']);
             }
@@ -141,7 +170,9 @@ class KvkService
         // Let see what we got here in terms of object
 
         $this->manager->persist($company);
-        $company->setId($branch['branchNumber']);
+        if(key_exists('branchNumber', $branch)){
+            $company->setId($branch['branchNumber']);
+        }
         $this->manager->persist($company);
 
         return $company;
@@ -150,15 +181,13 @@ class KvkService
     public function getCompaniesOnSearchParameters($query): array
     {
         // Lets start with th getting of nummer aanduidingen
-//        var_dump($query);
-//        die;
         $companies = $this->getCompanies($query);
 
         // Lets setup an responce
         $results = [];
         // Then we need to enrich that
-        foreach ($companies as $nummeraanduiding) {
-            $results[] = $this->getObject($nummeraanduiding);
+        foreach ($companies as $company) {
+            $results[] = $this->getObject($company);
         }
 
         return $results;
