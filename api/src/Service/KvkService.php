@@ -87,19 +87,18 @@ class KvkService
         $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
 
         $response = json_decode($response, true);
-        if(count($response['data']['items']) < 1){
+        if (count($response['data']['items']) < 1) {
             $query = ['kvkNumber'=>$branchNumber, 'branch'=>'false', 'mainBranch'=>'true', 'user_key'=>$this->params->get('common_ground.components')['kvk']['apikey']];
             $response = $this->client->get('companies', ['query'=>$this->convertQuery($query)])->getBody();
 
             $response = json_decode($response, true);
-            if(count($response['data']['items']) > 1){
-                foreach($response['data']['items'] as $responseItem){
-                    if(!key_exists('branchNumber', $responseItem)){
+            if (count($response['data']['items']) > 1) {
+                foreach ($response['data']['items'] as $responseItem) {
+                    if (!key_exists('branchNumber', $responseItem)) {
                         $response = $responseItem;
                     }
                 }
-            }
-            elseif($response['data']['items'] == 1){
+            } elseif ($response['data']['items'] == 1) {
                 $response = $response['data']['items'][0];
             } else {
                 throw new HttpException(404, 'not found');
@@ -139,7 +138,7 @@ class KvkService
     public function getObject($branch): Company
     {
         $company = new Company();
-        if(key_exists('branchNumber', $branch)){
+        if (key_exists('branchNumber', $branch)) {
             $company->setBranchNumber($branch['branchNumber']);
         }
         $company->setKvkNumber($branch['kvkNumber']);
@@ -154,7 +153,7 @@ class KvkService
         $company->setIsBranch($branch['isBranch']);
         $company->setIsMainBranch($branch['isMainBranch']);
 
-        if(key_exists('addresses', $branch)){
+        if (key_exists('addresses', $branch)) {
             foreach ($branch['addresses'] as $rawAddress) {
                 $address = new Address();
                 $address->setType($rawAddress['type']);
@@ -189,9 +188,9 @@ class KvkService
         // Let see what we got here in terms of object
 
         $this->manager->persist($company);
-        if(key_exists('branchNumber', $branch)){
+        if (key_exists('branchNumber', $branch)) {
             $company->setId($branch['branchNumber']);
-        }else{
+        } else {
             $company->setid($branch['kvkNumber']);
         }
         $this->manager->persist($company);
