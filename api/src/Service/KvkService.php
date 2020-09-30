@@ -107,7 +107,6 @@ class KvkService
             $response = $response['data']['items'][0];
         }
 
-
         $item->set($response);
         $item->expiresAt(new DateTime('+ 1 week'));
         $this->cache->save($item);
