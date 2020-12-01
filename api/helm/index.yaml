@@ -3,14 +3,48 @@ entries:
   kvk:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-10-06T12:27:27.6829031Z"
+    created: "2020-12-01T13:26:47.008664Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: 53d11e829efecff0802c02ada46146d895c7456697a457957760a9f303e43078
+    digest: e6e6ae9eb0cb4b8cf6722ed1ecba880a07eba013dd507daef6b0c1f9b8a96987
     home: kvk.zuid-drecht.nl
     icon: kvk.zuid-drecht.nl
     name: kvk
     urls:
     - kvk-0.1.0.tgz
     version: 0.1.0
-generated: "2020-10-06T12:27:27.6763943Z"
+  postgresql:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 11.10.0
+    created: "2020-12-01T13:26:47.0221945Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 1.x.x
+    description: Chart for PostgreSQL, an object-relational database management system
+      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    digest: eebe8f456cf98d5927a35666d1d899174dc4d3e09f26788033f761527bc90749
+    home: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/bitnami-docker-postgresql
+    - https://www.postgresql.org/
+    urls:
+    - charts/postgresql-10.1.1.tgz
+    version: 10.1.1
+generated: "2020-12-01T13:26:46.9962614Z"
