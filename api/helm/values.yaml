@@ -4,11 +4,11 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: proto-component
-  name: proto-component
+  projectName: kvkservice
+  name: kvkservice
   version: V1.0
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/kvkservice
   demo: kvk.zuid-drecht.nl
   domain: conduction.nl
   subdomain: kvk
@@ -41,7 +41,7 @@ security:
 
 
 php:
-  repository: docker.io/conduction/protocomponent-php
+  repository: docker.io/conduction/kvkservice-php
   tag: latest
   mercure:
     jwtSecret: ""
@@ -50,7 +50,7 @@ php:
   replicaCount: 2
 
 nginx:
-  repository: docker.io/conduction/protocomponent-nginx
+  repository: docker.io/conduction/kvkservice-nginx
   tag: latest
   pullPolicy: Always
   replicaCount: 2
@@ -58,7 +58,7 @@ nginx:
 varnish:
   enabled: true
   #url: https://example.com
-  repository: docker.io/conduction/protocomponent-varnish
+  repository: docker.io/conduction/kvkservice-varnish
   tag: latest
   pullPolicy: Always
   replicaCount: 1
