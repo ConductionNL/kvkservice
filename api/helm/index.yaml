@@ -3,10 +3,10 @@ entries:
   kvk:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-12-01T13:26:47.008664Z"
-    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
-      interface beschikbaar.&#039;'
-    digest: e6e6ae9eb0cb4b8cf6722ed1ecba880a07eba013dd507daef6b0c1f9b8a96987
+    created: "2021-02-18T01:55:22.3521429Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 3602389756b15b3794fb2dcfe41bb7a9cd81915871d2eb1d9fd9cfeff06e357a
     home: kvk.zuid-drecht.nl
     icon: kvk.zuid-drecht.nl
     name: kvk
@@ -18,7 +18,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2020-12-01T13:26:47.0221945Z"
+    created: "2021-02-18T01:55:22.3687243Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -47,4 +47,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2020-12-01T13:26:46.9962614Z"
+generated: "2021-02-18T01:55:22.3179684Z"

@@ -4,31 +4,20 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: kvk
-  name: kvk
-  title: KVKservice
+  projectName: kvkservice
+  name: kvkservice
   version: V1.0
-  majorVersion: v1
-  id: 
-  description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
-  type: component
-  repro: https://github.com/ConductionNL/proto-component
+  description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
+  repro: https://github.com/ConductionNL/kvkservice
   demo: kvk.zuid-drecht.nl
-  container: https://hub.docker.com/repository/docker/conduction/kvk-php
   domain: conduction.nl
   subdomain: kvk
   subpath: kvk
   subpathRouting: true
-  organisationName: Conduction
-  email: info@conduction.nl
-  country: Netherlands
-  state: Noord-Holland
-  locality: Amsterdam
-  unit: Common-Ground
   env: dev
   web: false
   debug: 1
-  cache: 1
+  cache: false
   replicaCount: 1
   corsAllowOrigin: ['*']
   trustedHosts: '^.+$'
@@ -38,11 +27,9 @@ settings:
     - 10.0.0.0/8
     - 172.16.0.0/12
     - 192.168.0.0/16
-  # If you are runnig a single component on a kubernetes cluster you can just easaliy enable the load balancer, if not you need to set up a multi component load balancer
+  # If you are running a single component on a kubernetes cluster you can just easily enable the load balancer, if not you need to set up a multi component load balancer
   loadbalancerEnabled: false
-  # If you want to enable NLX you are requered to add the appropreate certificates to you nlx-settings folder (located in the /api folder)
-  nlxInwayEnabled: false
-  # If you are runnig a single component on a kubernetes cluster you can just easaliy enable the load balancer, if not you need to set up a multi component load balancer
+  # If you are running a single component on a kubernetes cluster you can just easily enable the load balancer, if not you need to set up a multi component load balancer
   notificationEnabled: false
   audittrailEnabled: false
   authorisationEnabled: false
@@ -50,21 +37,11 @@ settings:
   archiveEnabled: false
 
 security:
-  commongroundId: "9329d8d0-1d5e-433c-bb47-6991053c7fcb"
-  commongroundKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
   applicationKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
-  userKey: "79d5b14c-70ab-41fb-ac02-917e3288870b"
-  authorisationProviderUser: https://uc.larping.eu
-  authorisationProviderApplication: https://ac.larping.eu
-
-commonground:
-    kvk:
-        location: "https://api.kvk.nl/api/v2/testsearch/"
-        key: "!changeMe!"
 
 
 php:
-  repository: docker.io/conduction/protocomponent-php
+  repository: docker.io/conduction/kvkservice-php
   tag: latest
   mercure:
     jwtSecret: ""
@@ -73,7 +50,7 @@ php:
   replicaCount: 2
 
 nginx:
-  repository: docker.io/conduction/protocomponent-nginx
+  repository: docker.io/conduction/kvkservice-nginx
   tag: latest
   pullPolicy: Always
   replicaCount: 2
@@ -81,7 +58,7 @@ nginx:
 varnish:
   enabled: true
   #url: https://example.com
-  repository: docker.io/conduction/protocomponent-varnish
+  repository: docker.io/conduction/kvkservice-varnish
   tag: latest
   pullPolicy: Always
   replicaCount: 1
