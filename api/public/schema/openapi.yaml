@@ -1,16 +1,16 @@
 openapi: 3.0.2
 info:
-  title: KVKservice
+  title: ''
   version: V1.0
   description: |
     API Details
-    - Component: KVKservice
-    - Reference: kvk
+    - Component: 
+    - Reference: kvkservice
     - Enviroment: dev
     - Version: V1.0
-    - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
-    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/kvk-php) 
-    - Datamodel: [postman](schema/kvk.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Repository: [online](https://github.com/ConductionNL/kvkservice) / [zip](https://github.com/ConductionNL/kvkservice/archive/master.zip)
+    - Docker Image: [online]() 
+    - Datamodel: [postman](schema/kvkservice.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
@@ -2889,12 +2889,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-18 01:47:05'
+        example: '2021-02-19 14:53:38'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-18 01:47:05'
+        example: '2021-02-19 14:53:38'
     required: []
   AuditTrail-write:
     properties:
@@ -2942,12 +2942,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-18 01:47:05'
+        example: '2021-02-19 14:53:38'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-18 01:47:05'
+        example: '2021-02-19 14:53:38'
     required: []
   ChangeLog-write:
     properties:
@@ -2995,7 +2995,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: conduction.nl
-    url: kvk.dev.conduction.nl
+    url: kvkservice.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'

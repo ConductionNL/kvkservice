@@ -41,7 +41,7 @@ security:
 
 
 php:
-  repository: docker.io/conduction/kvkservice-php
+  repository: docker.io/conduction/protocomponent-php
   tag: latest
   mercure:
     jwtSecret: ""
@@ -50,7 +50,7 @@ php:
   replicaCount: 2
 
 nginx:
-  repository: docker.io/conduction/kvkservice-nginx
+  repository: docker.io/conduction/protocomponent-nginx
   tag: latest
   pullPolicy: Always
   replicaCount: 2
@@ -58,7 +58,7 @@ nginx:
 varnish:
   enabled: true
   #url: https://example.com
-  repository: docker.io/conduction/kvkservice-varnish
+  repository: docker.io/conduction/protocomponent-varnish
   tag: latest
   pullPolicy: Always
   replicaCount: 1

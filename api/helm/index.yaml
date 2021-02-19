@@ -3,7 +3,7 @@ entries:
   kvk:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-18T01:55:22.3521429Z"
+    created: "2021-02-19T14:51:56.6653027Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
     digest: 3602389756b15b3794fb2dcfe41bb7a9cd81915871d2eb1d9fd9cfeff06e357a
@@ -13,12 +13,38 @@ entries:
     urls:
     - kvk-0.1.0.tgz
     version: 0.1.0
+  kvkservice:
+  - apiVersion: v1
+    appVersion: V1.0
+    created: "2021-02-19T14:51:56.6817466Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 3aa8ea57f1567c9ae4482ede07f4de963abac19362e620b3dff146c25a7b89cb
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: kvkservice
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+    urls:
+    - kvkservice-0.1.0.tgz
+    version: 0.1.0
   postgresql:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-18T01:55:22.3687243Z"
+    created: "2021-02-19T14:51:56.6904811Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -47,4 +73,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2021-02-18T01:55:22.3179684Z"
+generated: "2021-02-19T14:51:56.6499909Z"
