@@ -28,12 +28,12 @@ jobs:
           export RELEASE=$VERSION.$(date --utc +%y%m%d)
           echo "RELEASE=$RELEASE" >> $GITHUB_ENV
           echo "##[set-output name=releasename]$RELEASE"
-      - name: Setting APP_NAME
+      - name: Setting APP_NAME_TECHNICAL
         run: |
-          export NAME=$(grep APP_NAME= .env | cut -d '=' -f2)
-          echo "APP_NAME=$NAME" >> $GITHUB_ENV
+          export NAME=$(grep APP_NAME_TECHNICAL= .env | cut -d '=' -f2)
+          echo "APP_NAME_TECHNICAL=$NAME" >> $GITHUB_ENV
       - name: Print app name
-        run: echo "APP_NAME = $APP_NAME"
+        run: echo "APP_NAME_TECHNICAL = $APP_NAME_TECHNICAL"
       - name: Setting APP_ENV to dev
         run: |
           echo "APP_ENV=dev">> $GITHUB_ENV
@@ -87,7 +87,7 @@ jobs:
       - name: Add docker tags
         if: github.ref == 'refs/heads/master'
         run: |
-          images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1 | grep $APP_NAME)
+          images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1 | grep $APP_NAME_TECHNICAL)
           for image in $images
           do
             docker tag "${image}":latest "${image}":"${APP_BUILD}"
@@ -111,7 +111,7 @@ jobs:
       - if: steps.containerregistry-login.outputs.success == 'true' && github.ref == 'refs/heads/master'
         name: Push versioned containers to Container Registry
         run: |
-          images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1 | grep $APP_NAME)
+          images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1 | grep $APP_NAME_TECHNICAL)
           for image in $images
           do
             docker push "${image}":"${APP_BUILD}"
@@ -129,9 +129,9 @@ jobs:
       - name: Rollout new containers
         if: (contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true' && success()
         run: |
-          kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-          kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-          kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+          kubectl rollout restart deployment/$APP_NAME_TECHNICAL-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+          kubectl rollout restart deployment/$APP_NAME_TECHNICAL-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+          kubectl rollout restart deployment/$APP_NAME_TECHNICAL-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
       #            - name: Export release code
       #              if: (success() || failure())
       #              id: releasecode
